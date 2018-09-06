@@ -1,14 +1,12 @@
 package com.fis.innovatein48.evidencemanagement.entity;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class Evidence {
 	
 	private String evidenceType;
 	private String date;
 	private String victim;
 	private String culprit;
-	private MultipartFile file;
+	private String file;
 
 	public String getEvidenceType() {
 		return evidenceType;
@@ -44,11 +42,11 @@ public class Evidence {
 		this.culprit = culprit;
 	}
 
-	public synchronized MultipartFile getFile() {
+	public String getFile() {
 		return file;
 	}
 
-	public synchronized void setFile(MultipartFile file) {
+	public void setFile(String file) {
 		this.file = file;
 	}
 

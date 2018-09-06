@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -56,6 +57,16 @@ function check(element)
 	      uiLibrary: 'bootstrap'
 	    });
 	});
+	
+	
+	$(document).on("click", ".open-AddImgDialog", function () {
+		 var imgsrc = $(this).data('id');
+		 $('#my_image').attr('src',imgsrc);
+		});
+	
+	
+
+	
 </script>
 <body>
 
@@ -63,13 +74,89 @@ function check(element)
 
 
 
-	<div class="container">
+<div class="container">
 <br/><br/><br/>
 
+
+ <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#case">Case</a></li>
+    <li><a data-toggle="pill" href="#evidence">Evidences</a></li>
+    <li><a data-toggle="pill" href="#menu2">Officers</a></li>
+    <li><a data-toggle="pill" href="#menu3">Others</a></li>
+  </ul>
+  
+
+<div class="tab-content">
+
+
+		
+<div id="case" class="tab-pane fade in active">
+      <h3>Case Details</h3>
+      
+<!--BEGIN HEAD-->
+<small>
+
+<!--END HEAD-->
+
+<!--BEGIN FIRST CARD-->
+<div class="card border-success mb-3 text-center">
+  <div class="card-header">
+    
+  </div>
+  <div>
+    <div class="card-body text-center">
+    <div class="col-md-6 table-responsive">
+	  <table class="table table-hover group table-striped" align="center">
+	    <colgroup>
+            <col class="col-md-4">
+            <col class="col-md-7">
+        </colgroup>
+	  	<tbody>   
+	  	  <tr>
+	  		<td><b>CaseNo:</b></td>
+	  		<td>${caseDetail.caseNo}</td>
+	  	 </tr>
+	  			
+	  		<tr>
+	  		<td><b>Case Name:</b></td>
+	  		<td>${caseDetail.caseName}</td>
+	  	 </tr>
+	  
+	  		<tr>
+	  		<td><b>Date:</b></td>
+	  		<td>${caseDetail.date}</td>
+	  	    </tr>
+	  	    
+	  	    <tr>
+	  		<td><b>Investigation Officer:</b></td>
+	  		<td>${caseDetail.invsgtnOfficer}</td>
+	  	    </tr>
+	  	    
+	  	</tbody>
+	  	</table>
+	  	
+    </div>
+	
+   </div>
+</div>
+</div>
+
+</small>
+</div>
+<!--END FIRST CARD-->
+      
+      
+      
+  
+   
+   
+   
+   
+   <div id="evidence" class="tab-pane fade">
 		<div class="row">
 			<div class="col-sm-8">
 				<h2>
-					Evidence <b>Details</b>
+					Evidence Details
 				</h2>
 			</div>
 			<div class="col-sm-4">
@@ -81,7 +168,6 @@ function check(element)
 		</div>
 
 		<div class="row">
-
 			<div class="col-md-12">
 				<div class="table-responsive">
 
@@ -89,40 +175,48 @@ function check(element)
 					<table id="mytable" class="table table-bordred table-striped">
 
 						<thead>
-
 							<th><input type="checkbox" id="checkall" /></th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Address</th>
-							<th>Email</th>
+							<th>Evidence Type</th>
+							<th>Date</th>
+							<th>Victim</th>
+							<th>Culprit</th>
 							<th>Contact</th>
 							<th>Edit</th>
 							<th>Delete</th>
+							<th>View</th>
 
 						</thead>
 						<tbody>
-
+                        <c:forEach items="${caseDetail.evidenceList}" var="temp">
 							<tr>
 								<td><input type="checkbox" class="checkthis" /></td>
-								<td>Mohsin</td>
-								<td>Irshad</td>
-								<td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-								<td>isometric.mohsin@gmail.com</td>
+								<td>${temp.evidenceType}</td>
+								<td>${temp.date}</td>
+								<td>${temp.victim}</td>
+								<td>${temp.culprit}</td>
 								<td>+923335586757</td>
 								<td><p data-placement="top" data-toggle="tooltip"
-										title="Edit">
-										<button class="btn btn-primary btn-xs" data-title="Edit-Evidence"
+										title="Edit-Evidence">
+										<button class="btn btn-primary btn-xs" data-title="Edit"
 											data-toggle="modal" data-target="#edit">
 											<span class="glyphicon glyphicon-pencil"></span>
 										</button>
 									</p></td>
 								<td><p data-placement="top" data-toggle="tooltip"
-										title="Delete">
-										<button class="btn btn-danger btn-xs" data-title="Delete-Evidence"
+										title="Delete-Evidence">
+										<button class="btn btn-danger btn-xs" data-title="Delete"
 											data-toggle="modal" data-target="#delete">
 											<span class="glyphicon glyphicon-trash"></span>
 										</button>
 									</p></td>
+								<td><p data-placement="top" data-toggle="tooltip"
+										title="View-Evidence">
+										<button class="btn btn-success btn-xs open-AddImgDialog" data-title="View"
+											data-toggle="modal" data-target="#view" data-id= ${temp.file}>
+											<span class="glyphicon glyphicon-picture"></span>
+										</button>
+									</p></td>
+									
 							</tr>
 
 							<tr>
@@ -134,7 +228,7 @@ function check(element)
 								<td>+923335586757</td>
 								<td><p data-placement="top" data-toggle="tooltip"
 										title="Edit">
-										<button class="btn btn-primary btn-xs" data-title="Edit-Evidence"
+										<button class="btn btn-primary btn-xs" data-title="Edit"
 											data-toggle="modal" data-target="#edit">
 											<span class="glyphicon glyphicon-pencil"></span>
 										</button>
@@ -144,6 +238,14 @@ function check(element)
 										<button class="btn btn-danger btn-xs" data-title="Delete-Evidence"
 											data-toggle="modal" data-target="#delete">
 											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</p></td>
+									
+							   <td><p data-placement="top" data-toggle="tooltip"
+										title="View-Evidence">
+										<button class="btn btn-success btn-xs open-AddImgDialog" data-title="View"
+											data-toggle="modal" data-id="resources/images/Output1.PNG" data-target="#view">
+											<span class="glyphicon glyphicon-picture"></span>
 										</button>
 									</p></td>
 							</tr>
@@ -170,6 +272,14 @@ function check(element)
 											<span class="glyphicon glyphicon-trash"></span>
 										</button>
 									</p></td>
+									
+									<td><p data-placement="top" data-toggle="tooltip"
+										title="View-Evidence">
+										<button class="btn btn-success btn-xs" data-title="View"
+											data-toggle="modal" data-target="#view">
+											<span class="glyphicon glyphicon-picture"></span>
+										</button>
+									</p></td>
 							</tr>
 
 
@@ -193,6 +303,13 @@ function check(element)
 										<button class="btn btn-danger btn-xs" data-title="Delete-Evidence"
 											data-toggle="modal" data-target="#delete">
 											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</p></td>
+									<td><p data-placement="top" data-toggle="tooltip"
+										title="View-Evidence">
+										<button class="btn btn-success btn-xs" data-title="View"
+											data-toggle="modal" data-target="#view">
+											<span class="glyphicon glyphicon-picture"></span>
 										</button>
 									</p></td>
 							</tr>
@@ -247,6 +364,32 @@ function check(element)
 			</div>
 		</div>
 	</div>
+	
+	
+      <div class="modal fade" id="view" tabindex="-1" role="dialog"
+		aria-labelledby="edit" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+					<h4 class="modal-title custom_align" id="Heading">Evidence
+						</h4>
+				</div>
+				<div class="modal-body">
+					
+					<img class="img-responsive" id="my_image" />
+					
+				</div>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	
+
 
 
 	<div class="modal fade" id="edit" tabindex="-1" role="dialog"
@@ -386,9 +529,20 @@ function check(element)
 		</div>
 		</form>
 		<!-- /.modal-dialog -->
+		
+		
+		
+		
+    
+    <div id="menu2" class="tab-pane fade">
+      <h3>Officer Details</h3>
+      <p>Officers 1 23 4 4 4  55 5</p>
+    </div>
 	
+</div>
 
+</div><!-- Tab container end -->
 
-
+</div> <!-- container end -->
 </body>
 </html>

@@ -126,6 +126,5 @@ public class UploadFileToCloudService {
 				//blob.downloadToFile(blobItem.getUri().toString());
 				
 			}
-			
 		}
 }

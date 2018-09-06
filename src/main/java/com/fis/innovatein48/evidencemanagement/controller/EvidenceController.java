@@ -7,17 +7,22 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fis.innovatein48.evidencemanagement.entity.CaseDetail;
+import com.fis.innovatein48.evidencemanagement.entity.Evidence;
 import com.fis.innovatein48.evidencemanagement.services.FileHandlingService;
 import com.fis.innovatein48.evidencemanagement.services.UploadFileToCloudService;
 import com.microsoft.azure.storage.StorageException;
@@ -32,8 +37,37 @@ public class EvidenceController {
 
 	@RequestMapping("/dashboard")
 	public String openDashBoard() {
+		
+		ModelMap modelMap = new ModelMap();
+		
+		CaseDetail caseDetail =  new CaseDetail();
+		caseDetail.setCaseName("Blast");
+		caseDetail.setCaseNo(123);
+		caseDetail.setDate("09/05/2018");
+		caseDetail.setInvsgtnOfficer("Mohan");
+		
+		
+		List<Evidence> evidenceList = new ArrayList<>();
+		for(int i=1 ; i<=5 ; i++)
+		{
+		Evidence evidence = new Evidence();
+		evidence.setCulprit("Jhon");
+		evidence.setDate("09/05/2018");
+		evidence.setVictim("Tonny");
+		try {
+			evidence.setFile(fileHandlingService.getStringFromFile("C:\\Innovate\\Downloaded\\Capture.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		evidenceList.add(evidence);
+		}
+		
+		caseDetail.setEvidenceList(evidenceList);
+		
+		modelMap.addAttribute("caseDetail", caseDetail);
 		return "evidenceForm";
 	}
+	
 
 	@RequestMapping("/test")
 	public String openDash() {
